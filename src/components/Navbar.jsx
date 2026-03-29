@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Menu, X, Phone } from 'lucide-react';
+import logoSrc from '/logo_kon_spaw.png';
 
 const navLinks = [
     { name: 'O Firmie', href: '#about' },
     { name: 'Oferta', href: '#services' },
     { name: 'Technologia', href: '#technology' },
     { name: 'Realizacje', href: '#projects' },
+    { name: 'Galeria', href: '#gallery' },
     { name: 'Kontakt', href: '#contact' },
 ];
 
@@ -21,13 +23,39 @@ const Navbar = () => {
         return () => window.removeEventListener('scroll', onScroll);
     }, []);
 
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        return () => { document.body.style.overflow = ''; };
+    }, [isOpen]);
+
+    const closeMenu = useCallback(() => setIsOpen(false), []);
+
     return (
-        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'glass py-3' : 'bg-transparent py-5'}`}>
-            <div className="max-w-[1400px] mx-auto px-6 flex items-center justify-between">
-                <a href="#hero" className="flex items-center gap-1">
-                    <span style={{ fontFamily: 'Bebas Neue, sans-serif', fontSize: '1.5rem', letterSpacing: '0.12em', color: 'white' }}>
-                        KON-<span style={{ color: 'var(--ks-orange)' }}>SPAW</span>
-                    </span>
+        <nav
+            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? 'glass py-3' : 'bg-transparent py-5'}`}
+            role="navigation"
+            aria-label="Nawigacja główna"
+        >
+            <div
+                style={{
+                    maxWidth: 'var(--ks-container-max)',
+                    marginInline: 'auto',
+                    paddingInline: 'var(--ks-container-px)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                }}
+            >
+                <a href="#hero" className="flex items-center" aria-label="Kon-Spaw — strona główna">
+                    <img
+                        src={logoSrc}
+                        alt="Kon-Spaw logo"
+                        style={{ height: '2.5rem', width: 'auto', display: 'block' }}
+                    />
                 </a>
 
                 <div className="hidden md:flex items-center gap-8">
@@ -51,29 +79,46 @@ const Navbar = () => {
 
                 <button
                     className="md:hidden p-2 rounded-lg"
-                    style={{ background: 'var(--ks-surface)', color: 'var(--ks-text)' }}
+                    style={{ background: 'var(--ks-surface)', color: 'var(--ks-text)', border: '1px solid var(--ks-border)' }}
                     onClick={() => setIsOpen(prev => !prev)}
-                    aria-label="Otwórz menu"
+                    aria-label={isOpen ? 'Zamknij menu' : 'Otwórz menu'}
+                    aria-expanded={isOpen}
                 >
                     {isOpen ? <X size={20} /> : <Menu size={20} />}
                 </button>
             </div>
 
             {isOpen && (
-                <div className="md:hidden border-t" style={{ background: 'rgba(10,10,10,0.97)', borderColor: 'var(--ks-border)' }}>
-                    <div className="px-6 py-4 flex flex-col gap-1">
+                <div
+                    className="md:hidden border-t"
+                    style={{
+                        background: 'rgba(10,10,10,0.98)',
+                        borderColor: 'var(--ks-border)',
+                        maxHeight: 'calc(100dvh - 56px)',
+                        overflowY: 'auto',
+                    }}
+                >
+                    <div
+                        style={{
+                            paddingInline: 'var(--ks-container-px)',
+                            paddingBlock: '1rem',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '0.25rem',
+                        }}
+                    >
                         {navLinks.map(link => (
                             <a
                                 key={link.name}
                                 href={link.href}
-                                onClick={() => setIsOpen(false)}
-                                className="block py-3 tracking-widest uppercase text-sm border-b"
+                                onClick={closeMenu}
+                                className="block py-3.5 tracking-widest uppercase text-sm border-b"
                                 style={{ color: 'var(--ks-muted)', borderColor: 'var(--ks-border)', fontFamily: 'Oswald, sans-serif' }}
                             >
                                 {link.name}
                             </a>
                         ))}
-                        <a href={PHONE.href} className="btn-cta mt-4 text-sm justify-center">
+                        <a href={PHONE.href} className="btn-cta mt-5 text-sm justify-center" onClick={closeMenu}>
                             <Phone size={14} />
                             {PHONE.display}
                         </a>

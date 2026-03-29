@@ -50,8 +50,18 @@ const Technology = () => {
             }
         );
 
-        const totalWidth = trackRef.current.scrollWidth - window.innerWidth + 120;
+        gsap.fromTo('.mach-card',
+            { opacity: 0, y: 30 },
+            {
+                opacity: 1, y: 0, stagger: 0.15, duration: 0.7, ease: 'power2.out',
+                scrollTrigger: { trigger: wrapperRef.current, start: 'top 80%' },
+            }
+        );
 
+        if (!trackRef.current || !wrapperRef.current) return;
+        if (window.innerWidth < 768) return;
+
+        const totalWidth = trackRef.current.scrollWidth - window.innerWidth + 120;
         const hScroll = gsap.to(trackRef.current, {
             x: -totalWidth,
             ease: 'none',
@@ -65,21 +75,13 @@ const Technology = () => {
             },
         });
 
-        gsap.fromTo('.mach-card',
-            { opacity: 0, y: 30 },
-            {
-                opacity: 1, y: 0, stagger: 0.15, duration: 0.7, ease: 'power2.out',
-                scrollTrigger: { trigger: wrapperRef.current, start: 'top 80%' },
-            }
-        );
-
         return () => hScroll.scrollTrigger?.kill();
     }, { scope: sectionRef });
 
     return (
         <section id="technology" ref={sectionRef} style={{ background: 'var(--ks-black)' }}>
-            <div className="w-full py-20 px-6">
-                <div className="max-w-[1400px] mx-auto tech-header">
+            <div style={{ paddingBlock: 'var(--ks-section-py)', paddingInline: 'var(--ks-container-px)', paddingBottom: 0 }}>
+                <div style={{ maxWidth: 'var(--ks-container-max)', marginInline: 'auto' }} className="tech-header">
                     <div className="section-label mb-5">Park Maszynowy</div>
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
                         <h2
@@ -89,37 +91,51 @@ const Technology = () => {
                                 fontWeight: 700,
                                 color: 'var(--ks-text)',
                                 lineHeight: 1.1,
+                                margin: 0,
                             }}
                         >
                             Technologia<br />Produkcji
                         </h2>
-                        <p className="max-w-sm text-sm leading-relaxed" style={{ color: 'var(--ks-muted)' }}>
+                        <p style={{ maxWidth: '32ch', fontSize: '0.875rem', lineHeight: 1.7, color: 'var(--ks-muted)' }}>
                             Inwestujemy w nowoczesne urządzenia zapewniające precyzję i terminowość.
-                            Przewiń w prawo, aby poznać naszą flotę maszyn.
+                            <span className="hidden md:inline"> Przewiń w prawo, aby poznać naszą flotę maszyn.</span>
                         </p>
                     </div>
-                    <div className="mt-8 flex items-center gap-3" style={{ color: 'var(--ks-muted)' }}>
-                        <span className="text-xs tracking-widest uppercase" style={{ fontFamily: 'Oswald, sans-serif' }}>
+                    <div className="hidden md:flex mt-8 items-center gap-3" style={{ color: 'var(--ks-muted)' }}>
+                        <span style={{ fontSize: '0.75rem', letterSpacing: '0.15em', textTransform: 'uppercase', fontFamily: 'Oswald, sans-serif' }}>
                             Przesuń →
                         </span>
-                        <div className="h-px flex-1 max-w-xs" style={{ background: 'var(--ks-border)' }} />
+                        <div style={{ height: '1px', flex: 1, maxWidth: '16rem', background: 'var(--ks-border)' }} />
                     </div>
                 </div>
             </div>
 
-            <div ref={wrapperRef} className="overflow-hidden">
-                <div ref={trackRef} className="horizontal-track pl-6 pr-24 pb-20">
+            <div ref={wrapperRef} style={{ overflow: 'hidden' }}>
+                <div
+                    ref={trackRef}
+                    className="horizontal-track"
+                    style={{ paddingLeft: 'var(--ks-container-px)', paddingRight: '6rem', paddingBottom: '5rem' }}
+                >
                     {machines.map(m => (
                         <div
                             key={m.id}
-                            className="mach-card flex-shrink-0 bento-card flex flex-col justify-between"
-                            style={{ width: 'clamp(300px, 30vw, 420px)', minHeight: '340px', background: 'var(--ks-surface)' }}
+                            className="mach-card bento-card flex flex-col justify-between"
+                            style={{
+                                width: 'clamp(260px, 30vw, 420px)',
+                                minHeight: '300px',
+                                background: 'var(--ks-surface)',
+                                flexShrink: 0,
+                            }}
                         >
                             <div>
-                                <div className="flex items-center justify-between mb-6">
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.5rem' }}>
                                     <span
-                                        className="px-3 py-1 text-xs font-bold tracking-widest rounded"
                                         style={{
+                                            padding: '0.25rem 0.75rem',
+                                            fontSize: '0.7rem',
+                                            fontWeight: 700,
+                                            letterSpacing: '0.15em',
+                                            borderRadius: '0.25rem',
                                             background: 'var(--ks-surface2)',
                                             color: 'var(--ks-orange)',
                                             fontFamily: 'Oswald, sans-serif',
@@ -132,19 +148,19 @@ const Technology = () => {
                                         {m.id}
                                     </span>
                                 </div>
-                                <h3 className="text-xl font-semibold mb-2" style={{ color: 'var(--ks-text)', fontFamily: 'Oswald, sans-serif' }}>
+                                <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.5rem', color: 'var(--ks-text)', fontFamily: 'Oswald, sans-serif' }}>
                                     {m.name}
                                 </h3>
-                                <p className="text-xs font-mono mb-4" style={{ color: 'var(--ks-orange)' }}>
+                                <p style={{ fontSize: '0.75rem', fontFamily: 'monospace', marginBottom: '1rem', color: 'var(--ks-orange)' }}>
                                     {m.spec}
                                 </p>
-                                <p className="text-sm leading-relaxed" style={{ color: 'var(--ks-muted)' }}>
+                                <p style={{ fontSize: '0.875rem', lineHeight: 1.7, color: 'var(--ks-muted)' }}>
                                     {m.desc}
                                 </p>
                             </div>
 
-                            <div className="mt-8 pt-5 border-t" style={{ borderColor: 'var(--ks-border)' }}>
-                                <div className="flex justify-between text-xs" style={{ color: 'var(--ks-muted)' }}>
+                            <div style={{ marginTop: '2rem', paddingTop: '1.25rem', borderTop: '1px solid var(--ks-border)' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--ks-muted)' }}>
                                     <span style={{ fontFamily: 'Oswald, sans-serif' }}>PARAMETRY TECHNICZNE</span>
                                     <span style={{ color: 'var(--ks-orange)' }}>▸</span>
                                 </div>

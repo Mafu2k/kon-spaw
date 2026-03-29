@@ -1,11 +1,11 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Send, ChevronRight } from 'lucide-react';
 
 const contactInfo = [
     {
         icon: <MapPin size={18} />,
         label: 'Adres',
-        value: 'ul. Mikulczycka 103\n42-674 Świętoszowice',
+        value: 'ul. Mikulczycka 103\n42-675 Świętoszowice',
         href: 'https://maps.google.com/?q=Mikulczycka+103+Swietoszowice',
     },
     {
@@ -63,10 +63,9 @@ const ContactSection = () => {
     return (
         <section
             id="contact"
-            className="w-full py-28 px-6"
-            style={{ background: 'var(--ks-black)', borderTop: '1px solid var(--ks-border)' }}
+            style={{ width: '100%', paddingBlock: 'var(--ks-section-py)', paddingInline: 'var(--ks-container-px)', background: 'var(--ks-black)', borderTop: '1px solid var(--ks-border)' }}
         >
-            <div className="max-w-[1400px] mx-auto">
+            <div style={{ maxWidth: 'var(--ks-container-max)', marginInline: 'auto' }}>
 
                 <div className="section-label mb-5">Kontakt</div>
                 <h2

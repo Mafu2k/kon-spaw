@@ -7,15 +7,18 @@ import About from './components/About';
 import Services from './components/Services';
 import Technology from './components/Technology';
 import Projects from './components/Projects';
-import Clients from './components/Clients';
+import Gallery from './components/Gallery';
 import ContactSection from './components/ContactSection';
 
 function App() {
   useEffect(() => {
+    const isTouchDevice = window.matchMedia('(hover: none)').matches;
+
     const lenis = new Lenis({
-      duration: 1.4,
+      duration: isTouchDevice ? 0.8 : 1.4,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
+      smoothWheel: !isTouchDevice,
+      smoothTouch: false,
     });
 
     function raf(time) {
@@ -36,7 +39,7 @@ function App() {
         <Services />
         <Technology />
         <Projects />
-        <Clients />
+        <Gallery />
         <ContactSection />
       </main>
       <Footer />
