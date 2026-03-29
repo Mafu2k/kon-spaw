@@ -39,17 +39,20 @@ const Hero = () => {
                     '-=0.2'
                 );
 
-            const handleMouse = ({ clientX, clientY }) => {
-                gsap.to(gridRef.current, {
-                    x: (clientX / window.innerWidth - 0.5) * 20,
-                    y: (clientY / window.innerHeight - 0.5) * 10,
-                    duration: 1.5,
-                    ease: 'power1.out',
-                });
-            };
-
-            window.addEventListener('mousemove', handleMouse);
-            return () => window.removeEventListener('mousemove', handleMouse);
+            // Mouse parallax — only on non-touch devices
+            const isTouchDevice = window.matchMedia('(hover: none)').matches;
+            if (!isTouchDevice) {
+                const handleMouse = ({ clientX, clientY }) => {
+                    gsap.to(gridRef.current, {
+                        x: (clientX / window.innerWidth - 0.5) * 20,
+                        y: (clientY / window.innerHeight - 0.5) * 10,
+                        duration: 1.5,
+                        ease: 'power1.out',
+                    });
+                };
+                window.addEventListener('mousemove', handleMouse);
+                return () => window.removeEventListener('mousemove', handleMouse);
+            }
         }, containerRef);
 
         return () => ctx.revert();
@@ -61,13 +64,26 @@ const Hero = () => {
         <section
             id="hero"
             ref={containerRef}
-            className="relative w-full min-h-screen flex flex-col items-center justify-center overflow-hidden"
-            style={{ background: 'var(--ks-black)' }}
+            style={{
+                position: 'relative',
+                width: '100%',
+                minHeight: '100dvh',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                overflow: 'hidden',
+                background: 'var(--ks-black)',
+            }}
         >
+            {/* Grid background */}
             <div
                 ref={gridRef}
-                className="absolute inset-0 pointer-events-none opacity-0"
                 style={{
+                    position: 'absolute',
+                    inset: 0,
+                    pointerEvents: 'none',
+                    opacity: 0,
                     backgroundImage: `
                         linear-gradient(rgba(255,90,9,0.04) 1px, transparent 1px),
                         linear-gradient(90deg, rgba(255,90,9,0.04) 1px, transparent 1px)
@@ -76,31 +92,62 @@ const Hero = () => {
                 }}
             />
 
+            {/* Radial glow */}
             <div
-                className="absolute inset-0 pointer-events-none"
-                style={{ background: 'radial-gradient(ellipse 60% 50% at 50% 60%, rgba(255,90,9,0.07) 0%, transparent 70%)' }}
+                style={{
+                    position: 'absolute',
+                    inset: 0,
+                    pointerEvents: 'none',
+                    background: 'radial-gradient(ellipse 60% 50% at 50% 60%, rgba(255,90,9,0.07) 0%, transparent 70%)',
+                }}
             />
 
-            <div className="absolute top-20 left-8 w-16 h-16 pointer-events-none" style={{ borderTop: '1px solid var(--ks-orange)', borderLeft: '1px solid var(--ks-orange)', opacity: 0.4 }} />
-            <div className="absolute bottom-24 right-8 w-16 h-16 pointer-events-none" style={{ borderBottom: '1px solid var(--ks-orange)', borderRight: '1px solid var(--ks-orange)', opacity: 0.4 }} />
+            {/* Corner lines */}
+            <div style={{ position: 'absolute', top: '5rem', left: 'clamp(1rem,4vw,2rem)', width: '4rem', height: '4rem', pointerEvents: 'none', borderTop: '1px solid var(--ks-orange)', borderLeft: '1px solid var(--ks-orange)', opacity: 0.4 }} />
+            <div style={{ position: 'absolute', bottom: '6rem', right: 'clamp(1rem,4vw,2rem)', width: '4rem', height: '4rem', pointerEvents: 'none', borderBottom: '1px solid var(--ks-orange)', borderRight: '1px solid var(--ks-orange)', opacity: 0.4 }} />
 
-            <div className="relative z-10 w-full max-w-[1400px] mx-auto px-6 flex flex-col items-center text-center">
-                <div className="section-label mb-8">Śląsk · Polska · Europa</div>
+            {/* Content */}
+            <div
+                style={{
+                    position: 'relative',
+                    zIndex: 10,
+                    width: '100%',
+                    maxWidth: 'var(--ks-container-max)',
+                    marginInline: 'auto',
+                    paddingInline: 'var(--ks-container-px)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    textAlign: 'center',
+                }}
+            >
+                <div className="section-label" style={{ marginBottom: '2rem' }}>Śląsk · Polska · Europa</div>
 
                 <h1
                     ref={titleRef}
-                    className="relative select-none leading-none tracking-tight"
                     style={{
+                        position: 'relative',
+                        userSelect: 'none',
+                        lineHeight: 0.88,
+                        letterSpacing: '-0.02em',
                         fontFamily: 'Bebas Neue, sans-serif',
-                        fontSize: 'clamp(5rem, 18vw, 18rem)',
+                        fontSize: 'clamp(4.5rem, 18vw, 18rem)',
                         color: 'transparent',
                         WebkitTextStroke: '1px rgba(240,240,240,0.15)',
-                        lineHeight: 0.88,
+                        margin: 0,
                     }}
                 >
                     <span
-                        className="absolute inset-0 flex items-center justify-center"
-                        style={{ fontFamily: 'Bebas Neue, sans-serif', color: 'var(--ks-text)', WebkitTextStroke: 'unset' }}
+                        style={{
+                            position: 'absolute',
+                            inset: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontFamily: 'Bebas Neue, sans-serif',
+                            color: 'var(--ks-text)',
+                            WebkitTextStroke: 'unset',
+                        }}
                         aria-hidden="true"
                     >
                         KON-<span style={{ color: 'var(--ks-orange)' }}>SPAW</span>
@@ -110,22 +157,46 @@ const Hero = () => {
 
                 <p
                     ref={subRef}
-                    className="mt-8 tracking-[0.3em] text-sm md:text-base uppercase"
-                    style={{ color: 'var(--ks-muted)', fontFamily: 'Oswald, sans-serif', fontWeight: 400 }}
+                    style={{
+                        marginTop: '2rem',
+                        letterSpacing: '0.3em',
+                        fontSize: 'clamp(0.7rem, 2vw, 1rem)',
+                        color: 'var(--ks-muted)',
+                        fontFamily: 'Oswald, sans-serif',
+                        fontWeight: 400,
+                        textTransform: 'uppercase',
+                        textAlign: 'center',
+                        lineHeight: 1.8,
+                    }}
                 >
                     Konstrukcje Stalowe&nbsp;&nbsp;|&nbsp;&nbsp;Laser&nbsp;&nbsp;|&nbsp;&nbsp;Plazma&nbsp;&nbsp;|&nbsp;&nbsp;Gięcie&nbsp;&nbsp;|&nbsp;&nbsp;Cięcie Wodą
                 </p>
 
-                <div ref={badgesRef} className="mt-10 flex flex-wrap gap-3 justify-center">
+                <div
+                    ref={badgesRef}
+                    style={{
+                        marginTop: '2.5rem',
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: '0.75rem',
+                        justifyContent: 'center',
+                    }}
+                >
                     {badges.map(badge => (
                         <span
                             key={badge}
-                            className="px-4 py-2 rounded-full text-xs font-medium tracking-wider uppercase"
                             style={{
+                                padding: '0.5rem 1rem',
+                                borderRadius: '9999px',
+                                fontSize: '0.7rem',
+                                fontWeight: 500,
+                                letterSpacing: '0.12em',
+                                textTransform: 'uppercase',
                                 background: 'var(--ks-surface)',
                                 border: '1px solid var(--ks-border)',
                                 color: 'var(--ks-muted)',
                                 fontFamily: 'Oswald, sans-serif',
+                                whiteSpace: 'nowrap',
                             }}
                         >
                             {badge}
@@ -133,7 +204,15 @@ const Hero = () => {
                     ))}
                 </div>
 
-                <div className="mt-12 flex flex-wrap gap-4 justify-center">
+                <div
+                    style={{
+                        marginTop: '3rem',
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: '1rem',
+                        justifyContent: 'center',
+                    }}
+                >
                     <a href="#contact" className="btn-cta">
                         Zapytaj o wycenę
                         <ChevronDown size={16} />
@@ -144,21 +223,38 @@ const Hero = () => {
                 </div>
             </div>
 
+            {/* Scroll indicator */}
             <div
                 ref={scrollRef}
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
-                style={{ color: 'var(--ks-muted)' }}
+                style={{
+                    position: 'absolute',
+                    bottom: '2.5rem',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    gap: '0.75rem',
+                    color: 'var(--ks-muted)',
+                }}
             >
-                <span className="text-xs tracking-[0.2em] uppercase" style={{ fontFamily: 'Oswald, sans-serif' }}>
+                <span style={{ fontSize: '0.65rem', letterSpacing: '0.2em', textTransform: 'uppercase', fontFamily: 'Oswald, sans-serif' }}>
                     Przewiń
                 </span>
                 <div
-                    className="relative w-5 h-8 border rounded-full flex justify-center items-start pt-1.5"
-                    style={{ borderColor: 'var(--ks-border2)' }}
+                    style={{
+                        width: '1.25rem',
+                        height: '2rem',
+                        border: '1px solid var(--ks-border2)',
+                        borderRadius: '9999px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'flex-start',
+                        paddingTop: '0.375rem',
+                    }}
                 >
                     <div
-                        className="w-1 h-2 rounded-full"
-                        style={{ background: 'var(--ks-orange)', animation: 'scrollDot 2s ease-in-out infinite' }}
+                        style={{ width: '0.25rem', height: '0.5rem', borderRadius: '9999px', background: 'var(--ks-orange)', animation: 'scrollDot 2s ease-in-out infinite' }}
                     />
                 </div>
             </div>

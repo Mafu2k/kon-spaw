@@ -1,4 +1,5 @@
 import { Facebook, Instagram, Linkedin, MapPin, Phone, Mail } from 'lucide-react';
+import logoSrc from '/logo_kon_spaw.png';
 
 const Footer = () => {
     const links = [
@@ -6,6 +7,7 @@ const Footer = () => {
         { name: 'Oferta', href: '#services' },
         { name: 'Technologia', href: '#technology' },
         { name: 'Realizacje', href: '#projects' },
+        { name: 'Galeria', href: '#gallery' },
         { name: 'Kontakt', href: '#contact' },
     ];
 
@@ -17,22 +19,14 @@ const Footer = () => {
                 color: 'var(--ks-muted)',
             }}
         >
-            <div className="max-w-[1400px] mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-3 gap-10">
+            <div style={{ maxWidth: 'var(--ks-container-max)', marginInline: 'auto', paddingInline: 'var(--ks-container-px)', paddingBlock: '4rem', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(280px, 100%), 1fr))', gap: '2.5rem' }}>
 
-                {/* Brand */}
                 <div>
-                    <span
-                        style={{
-                            fontFamily: 'Bebas Neue, sans-serif',
-                            fontSize: '1.75rem',
-                            letterSpacing: '0.1em',
-                            color: 'var(--ks-text)',
-                            display: 'block',
-                            marginBottom: '1rem',
-                        }}
-                    >
-                        KON-<span style={{ color: 'var(--ks-orange)' }}>SPAW</span>
-                    </span>
+                    <img
+                        src={logoSrc}
+                        alt="Kon-Spaw logo"
+                        style={{ height: '3rem', width: 'auto', display: 'block', marginBottom: '1rem' }}
+                    />
                     <p className="text-sm leading-relaxed mb-5" style={{ maxWidth: '28ch' }}>
                         Kon-Spaw sp. z o.o. w organizacji sp. komandytowa<br />
                         Profesjonalne konstrukcje stalowe i obróbka metali.
@@ -68,7 +62,6 @@ const Footer = () => {
                     </div>
                 </div>
 
-                {/* Nav links */}
                 <div>
                     <h4
                         className="mb-5 text-xs tracking-widest uppercase"
@@ -93,7 +86,6 @@ const Footer = () => {
                     </ul>
                 </div>
 
-                {/* Contact */}
                 <div>
                     <h4
                         className="mb-5 text-xs tracking-widest uppercase"
@@ -104,7 +96,7 @@ const Footer = () => {
                     <ul className="flex flex-col gap-3 text-sm">
                         <li className="flex items-start gap-3">
                             <MapPin size={16} className="mt-0.5 flex-shrink-0" style={{ color: 'var(--ks-orange)' }} />
-                            <span>ul. Mikulczycka 103<br />42-674 Świętoszowice</span>
+                            <span>ul. Mikulczycka 103<br />42-675 Świętoszowice</span>
                         </li>
                         <li className="flex items-center gap-3">
                             <Phone size={16} className="flex-shrink-0" style={{ color: 'var(--ks-orange)' }} />
@@ -134,12 +126,11 @@ const Footer = () => {
                 </div>
             </div>
 
-            {/* Bottom bar */}
             <div
                 className="border-t"
                 style={{ borderColor: 'var(--ks-border)' }}
             >
-                <div className="max-w-[1400px] mx-auto px-6 py-5 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs">
+                <div style={{ maxWidth: 'var(--ks-container-max)', marginInline: 'auto', paddingInline: 'var(--ks-container-px)', paddingBlock: '1.25rem', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center', gap: '0.75rem', fontSize: '0.75rem' }}>
                     <span>© {new Date().getFullYear()} Kon-Spaw. Wszelkie prawa zastrzeżone.</span>
                     <span style={{ color: 'var(--ks-border2)' }}>
                         NIP: — · REGON: —

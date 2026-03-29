@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Zap, Droplets, Hammer, Layers, Settings2, Truck, ArrowUpRight, X } from 'lucide-react';
+import { Zap, Droplets, Hammer, Layers, Settings2, Truck, Paintbrush, ArrowUpRight, X } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -20,6 +20,7 @@ const services = [
                 'Gatunki stali: S235N, S355N, S420N, S460N, S690Q i inne',
                 'Elementy od 1 kg do 12,5 Mg / sztuka',
                 'Certyfikat PN EN ISO 3834-2',
+                'Hale, wiaty, antresole i konstrukcje przemysłowe',
                 'Obsługa branży budowlanej, górniczej, motoryzacyjnej, naftowej i lotniczej',
             ],
         },
@@ -94,18 +95,35 @@ const services = [
     },
     {
         id: '06',
+        icon: <Paintbrush size={28} />,
+        title: 'Malowanie Proszkowe i Natryskowe',
+        desc: 'Zabezpieczenie antykorozyjne gotowych elementów — malowanie proszkowe i natryskowe.',
+        span: 'col-span-1',
+        tall: false,
+        modal: {
+            details: [
+                'Malowanie proszkowe — trwałe powłoki na elementach stalowych',
+                'Malowanie natryskowe — farby epoksydowe i akrylowe',
+                'Przygotowanie powierzchni: piaskowanie, śrutowanie do Sa 2,5',
+                'Zabezpieczenie antykorozyjne zgodnie z normami',
+                'Szeroka paleta kolorów RAL',
+            ],
+        },
+    },
+    {
+        id: '07',
         icon: <Truck size={28} />,
-        title: 'Transport i Ochrona Antykorozyjna',
-        desc: 'Własny transport i logistyka. Zabezpieczenie antykorozyjne gotowych elementów.',
+        title: 'Transport i Logistyka',
+        desc: 'Własny transport i logistyka. Dostawa gotowych elementów na terenie Polski i Europy.',
         span: 'col-span-1 sm:col-span-2',
         tall: false,
         modal: {
             details: [
                 'Własna flota transportowa — dostawa na terenie Polski i Europy',
                 'Załadunek i rozładunek ciężkich elementów konstrukcyjnych',
-                'Zabezpieczenie antykorozyjne: malowanie, cynkowanie, powłoki epoksydowe',
-                'Przygotowanie powierzchni: piaskowanie, śrutowanie do Sa 2,5',
                 'Logistyka dostosowana do wymagań klienta',
+                'Koordynacja dostaw dla dużych projektów',
+                'Ubezpieczenie ładunku podczas transportu',
             ],
         },
     },
@@ -116,13 +134,29 @@ const ServiceModal = ({ service, onClose }) => {
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4"
-            style={{ background: 'rgba(0, 0, 0, 0.75)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}
+            style={{
+                position: 'fixed',
+                inset: 0,
+                zIndex: 50,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '1rem',
+                background: 'rgba(0, 0, 0, 0.8)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+            }}
             onClick={onClose}
         >
             <div
-                className="relative w-full max-w-xl rounded-2xl p-8"
                 style={{
+                    position: 'relative',
+                    width: '100%',
+                    maxWidth: '580px',
+                    maxHeight: '90dvh',
+                    overflowY: 'auto',
+                    borderRadius: '1rem',
+                    padding: 'clamp(1.5rem, 4vw, 2rem)',
                     background: 'var(--ks-surface)',
                     border: '1px solid var(--ks-border)',
                     boxShadow: '0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,90,9,0.1)',
@@ -131,45 +165,79 @@ const ServiceModal = ({ service, onClose }) => {
             >
                 <button
                     onClick={onClose}
-                    className="absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200"
-                    style={{ background: 'var(--ks-surface2)', color: 'var(--ks-muted)', border: '1px solid var(--ks-border)' }}
+                    style={{
+                        position: 'absolute',
+                        top: '1rem',
+                        right: '1rem',
+                        width: '2rem',
+                        height: '2rem',
+                        borderRadius: '0.5rem',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        background: 'var(--ks-surface2)',
+                        color: 'var(--ks-muted)',
+                        border: '1px solid var(--ks-border)',
+                        cursor: 'pointer',
+                        transition: 'all 0.2s',
+                    }}
                     onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--ks-orange)'; e.currentTarget.style.color = 'var(--ks-orange)'; }}
                     onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--ks-border)'; e.currentTarget.style.color = 'var(--ks-muted)'; }}
+                    aria-label="Zamknij"
                 >
                     <X size={14} />
                 </button>
 
-                <div className="flex items-center gap-4 mb-6">
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
                     <div
-                        className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                        style={{ background: 'var(--ks-surface2)', color: 'var(--ks-orange)', border: '1px solid var(--ks-border)' }}
+                        style={{
+                            width: '3rem',
+                            height: '3rem',
+                            borderRadius: '0.75rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexShrink: 0,
+                            background: 'var(--ks-surface2)',
+                            color: 'var(--ks-orange)',
+                            border: '1px solid var(--ks-border)',
+                        }}
                     >
                         {service.icon}
                     </div>
                     <div>
-                        <p className="text-xs tracking-widest uppercase mb-1" style={{ color: 'var(--ks-orange)', fontFamily: 'Oswald, sans-serif' }}>
-                            {service.id} / {services.length}
+                        <p style={{ fontSize: '0.7rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'var(--ks-orange)', fontFamily: 'Oswald, sans-serif', marginBottom: '0.25rem' }}>
+                            {service.id} / {services.length.toString().padStart(2, '0')}
                         </p>
-                        <h3 className="text-xl font-semibold" style={{ color: 'var(--ks-text)', fontFamily: 'Oswald, sans-serif' }}>
+                        <h3 style={{ fontSize: '1.25rem', fontWeight: 600, color: 'var(--ks-text)', fontFamily: 'Oswald, sans-serif', margin: 0 }}>
                             {service.title}
                         </h3>
                     </div>
                 </div>
 
-                <p className="text-sm leading-relaxed mb-6" style={{ color: 'var(--ks-muted)' }}>
+                <p style={{ fontSize: '0.875rem', lineHeight: 1.7, marginBottom: '1.5rem', color: 'var(--ks-muted)' }}>
                     {service.desc}
                 </p>
 
-                <div className="space-y-2">
+                <div>
                     {service.modal.details.map((detail, i) => (
-                        <div key={i} className="flex items-start gap-3 py-2.5 border-b" style={{ borderColor: 'var(--ks-border)' }}>
-                            <span className="mt-0.5 w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: 'var(--ks-orange)', marginTop: '6px' }} />
-                            <span className="text-sm" style={{ color: 'var(--ks-text)' }}>{detail}</span>
+                        <div
+                            key={i}
+                            style={{
+                                display: 'flex',
+                                alignItems: 'flex-start',
+                                gap: '0.75rem',
+                                paddingBlock: '0.625rem',
+                                borderBottom: '1px solid var(--ks-border)',
+                            }}
+                        >
+                            <span style={{ background: 'var(--ks-orange)', width: '6px', height: '6px', borderRadius: '50%', flexShrink: 0, marginTop: '6px' }} />
+                            <span style={{ fontSize: '0.875rem', color: 'var(--ks-text)' }}>{detail}</span>
                         </div>
                     ))}
                 </div>
 
-                <a href="#contact" onClick={onClose} className="btn-cta w-full justify-center mt-8">
+                <a href="#contact" onClick={onClose} className="btn-cta" style={{ width: '100%', justifyContent: 'center', marginTop: '2rem', display: 'flex' }}>
                     Zapytaj o wycenę
                 </a>
             </div>
@@ -202,10 +270,14 @@ const Services = () => {
             <section
                 id="services"
                 ref={sectionRef}
-                className="w-full py-28 px-6"
-                style={{ background: 'var(--ks-dark)' }}
+                style={{
+                    width: '100%',
+                    paddingBlock: 'var(--ks-section-py)',
+                    paddingInline: 'var(--ks-container-px)',
+                    background: 'var(--ks-dark)',
+                }}
             >
-                <div className="max-w-[1400px] mx-auto">
+                <div style={{ maxWidth: 'var(--ks-container-max)', marginInline: 'auto' }}>
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
                         <div>
                             <div className="section-label mb-4">Oferta</div>
@@ -216,6 +288,7 @@ const Services = () => {
                                     fontWeight: 700,
                                     color: 'var(--ks-text)',
                                     lineHeight: 1.1,
+                                    margin: 0,
                                 }}
                             >
                                 Kompleksowa<br />Obróbka Metali
@@ -233,15 +306,27 @@ const Services = () => {
                                 className={`svc-card bento-card group cursor-pointer flex flex-col justify-between ${svc.span} ${svc.tall ? 'row-span-2' : ''}`}
                                 style={{ minHeight: svc.tall ? '320px' : '200px' }}
                                 onClick={() => setActiveModal(svc)}
+                                role="button"
+                                tabIndex={0}
+                                aria-label={`Usługa: ${svc.title}`}
+                                onKeyDown={e => e.key === 'Enter' && setActiveModal(svc)}
                             >
-                                <div className="flex items-start justify-between">
+                                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
                                     <div
-                                        className="w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
                                         style={{
+                                            width: '3rem',
+                                            height: '3rem',
+                                            borderRadius: '0.75rem',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
                                             background: 'var(--ks-surface2)',
                                             color: 'var(--ks-orange)',
                                             border: '1px solid var(--ks-border)',
+                                            transition: 'transform 0.3s ease',
+                                            flexShrink: 0,
                                         }}
+                                        className="group-hover:scale-110"
                                     >
                                         {svc.icon}
                                     </div>
@@ -257,22 +342,36 @@ const Services = () => {
                                     </span>
                                 </div>
 
-                                <div className="mt-auto pt-6">
+                                <div style={{ marginTop: 'auto', paddingTop: '1.5rem' }}>
                                     <h3
-                                        className="mb-2 font-semibold text-lg transition-colors duration-300"
                                         style={{
+                                            marginBottom: '0.5rem',
+                                            fontSize: '1.125rem',
                                             color: 'var(--ks-text)',
                                             fontFamily: 'Oswald, sans-serif',
+                                            fontWeight: 600,
                                         }}
                                     >
                                         {svc.title}
                                     </h3>
-                                    <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--ks-muted)' }}>
+                                    <p style={{ fontSize: '0.875rem', lineHeight: 1.6, marginBottom: '1rem', color: 'var(--ks-muted)' }}>
                                         {svc.desc}
                                     </p>
                                     <div
-                                        className="flex items-center gap-1 text-xs font-medium uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                                        style={{ color: 'var(--ks-orange)', fontFamily: 'Oswald, sans-serif' }}
+                                        style={{
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            gap: '0.25rem',
+                                            fontSize: '0.75rem',
+                                            fontWeight: 500,
+                                            textTransform: 'uppercase',
+                                            letterSpacing: '0.1em',
+                                            color: 'var(--ks-orange)',
+                                            fontFamily: 'Oswald, sans-serif',
+                                            opacity: 0,
+                                            transition: 'opacity 0.3s ease',
+                                        }}
+                                        className="group-hover:opacity-100"
                                     >
                                         Dowiedz się więcej
                                         <ArrowUpRight size={14} />
