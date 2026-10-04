@@ -1,19 +1,21 @@
 # KON-SPAW
 
-Strona firmowa **KON-SPAW** — konstrukcje stalowe oraz cięcie laserem, CNC i waterjet.
-Zbudowana w React + Vite z Tailwind CSS i animacjami (GSAP, Three.js).
+Strona firmy KON-SPAW, która zajmuje się konstrukcjami stalowymi oraz cięciem laserem, CNC
+i waterjetem. Na stronie są oferta, technologie, galeria realizacji, klienci i formularz kontaktowy.
 
-## Stack
+Podgląd: https://mafu2k.github.io/kon-spaw/
 
-- React + Vite
-- Tailwind CSS
-- GSAP, Three.js
+## Technologie
+
+React i Vite, style w Tailwindzie. Animacje przy przewijaniu robi GSAP, a efekt 3D w sekcji
+hero Three.js. Każdy push na `main` buduje stronę i wrzuca ją na GitHub Pages
+(`.github/workflows/deploy.yml`).
 
 ## Uruchomienie
 
 ```bash
 npm install
 npm run dev
+npm run lint
+npm run build    # wynik w dist/, ścieżki pod /kon-spaw/
 ```
-
-Build produkcyjny: `npm run build`, podgląd: `npm run preview`.

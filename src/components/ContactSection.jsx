@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { MapPin, Phone, Mail, Clock, Send, ChevronRight } from 'lucide-react';
 
 const contactInfo = [
