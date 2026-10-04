@@ -7,8 +7,7 @@ Podgląd: https://mafu2k.github.io/kon-spaw/
 
 ## Technologie
 
-React i Vite, style w Tailwindzie. Animacje przy przewijaniu robi GSAP, a efekt 3D w sekcji
-hero Three.js. Każdy push na `main` buduje stronę i wrzuca ją na GitHub Pages
+React i Vite, style w Tailwindzie, a animacje przy przewijaniu robi GSAP. Każdy push na `main` buduje stronę i wrzuca ją na GitHub Pages
 (`.github/workflows/deploy.yml`).
 
 ## Uruchomienie
